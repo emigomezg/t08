@@ -6,36 +6,14 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
-/* TODO: insert other include files here. */
 #include "i2c_rtos.h"
 #include "task.h"
 #include "semphr.h"
-/* TODO: insert other definitions and declarations here. */
-/*
- * @brief   Application entry point.
- */
+
 SemaphoreHandle_t i2c_sem;
 
-void init_codec(void *parameters)
-{
-	uint8_t g_codec_sucess = freertos_i2c_fail;
-	g_codec_sucess = wm8731_init();
-while(!g_codec_sucess){}
-	xSemaphoreGive(i2c_sem);
-	vTaskSuspend(NULL);
-}
-
-void codec_audio(void *parameters)
-{
-
-	xSemaphoreTake(i2c_sem, portMAX_DELAY);
-
-	for(;;)
-	{
-		/*TODO AUDIO FUNCTIONS*/
-		vTaskDelay(pdMS_TO_TICKS(300));
-	}
-}
+void wm8731_play(void *parameters);
+void wm8731_CODEC_init(void *parameters);
 
 int main(void)
 {
@@ -50,8 +28,8 @@ int main(void)
 
     i2c_sem = xSemaphoreCreateBinary();
 
-    xTaskCreate(init_codec, "init_codec", 110, NULL, 1, NULL);
-    xTaskCreate(codec_audio, "codec_audio", 110, NULL, 1, NULL);
+    xTaskCreate(wm8731_CODEC_init, "wm8731_CODEC_init", 110, NULL, 1, NULL);
+    xTaskCreate(wm8731_play, "wm8731_play", 110, NULL, 1, NULL);
 
     vTaskStartScheduler();
 
@@ -60,4 +38,22 @@ int main(void)
 
     }
     return 0 ;
+}
+
+void wm8731_play(void *parameters)
+{
+	xSemaphoreTake(i2c_sem, portMAX_DELAY);
+	for(;;)
+	{
+		vTaskDelay(pdMS_TO_TICKS(400));
+	}
+}
+
+void wm8731_CODEC_init(void *parameters)
+{
+	uint8_t g_codec_sucess = freertos_i2c_fail;
+	g_codec_sucess = wm8731_init();
+while(!g_codec_sucess){}
+	xSemaphoreGive(i2c_sem);
+	vTaskSuspend(NULL);
 }

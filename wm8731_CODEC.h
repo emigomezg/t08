@@ -23,4 +23,4 @@
 
 freertos_i2c_flag_t wm8731_init(void);
 
-#endif /* WM8731_CODEC_H_ */
+#endif
