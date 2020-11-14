@@ -9,9 +9,7 @@
 #include "semphr.h"
 #include "task.h"
 
-/*bmi160 registers*/
-#define WM8731_SLAVE_ADDRESS		0x1A//0x1A /*If csb on 0*/
-
+#define WM8731_SLAVE_ADDRESS				0x1A
 #define WM8731_CODEC_LEFT_IN				0x00
 #define WM8731_CODEC_RIGHT_IN				0x01
 #define WM8731_CODEC_LEFT_OUT				0x02
@@ -23,12 +21,6 @@
 #define WM8731_CODEC_RESET_REGISTER	   		0x0F
 #define WM8731_CODEC_CODEC_ENABLE			0x12
 
-
-
-
 freertos_i2c_flag_t wm8731_init(void);
-uint8_t wm8731_play_audio(void);
-
-
 
 #endif /* WM8731_CODEC_H_ */

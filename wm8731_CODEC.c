@@ -59,11 +59,3 @@ freertos_i2c_flag_t wm8731_init(void)
 	}
 	return wm8731_sucess;
 }
-
-
-uint8_t wm8731_play_audio(void)
-{
-	return 0;
-}
-
-

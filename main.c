@@ -20,10 +20,7 @@ void init_codec(void *parameters)
 {
 	uint8_t g_codec_sucess = freertos_i2c_fail;
 	g_codec_sucess = wm8731_init();
-	if(freertos_i2c_sucess == g_codec_sucess)
-	{
-		PRINTF("Codec configured\n\r");
-	}
+while(!g_codec_sucess){}
 	xSemaphoreGive(i2c_sem);
 	vTaskSuspend(NULL);
 }
